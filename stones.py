@@ -1,4 +1,7 @@
+import os
 import random
+import sys
+
 import pygame
 
 pygame.init()
@@ -7,17 +10,36 @@ screen = pygame.display.set_mode(size)
 # global k
 k = 0
 
+
+def load_image(name, colorkey=None):
+    fullname = os.path.join('data', name)
+    if not os.path.isfile(fullname):
+        print(f"Файл с изображением '{fullname}' не найден")
+        sys.exit()
+    image = pygame.image.load(fullname)
+    if colorkey is not None:
+        # image = image.convert()
+        if colorkey == -1:
+            colorkey = image.get_at((0, 0))
+        image.set_colorkey(colorkey)
+    else:
+        image = image.convert_alpha()
+    return image
+
+
 class Ball(pygame.sprite.Sprite):
-    def __init__(self, radius, *groups):
+    image = load_image("stone2.jpg")
+
+    def __init__(self, *groups):
         super().__init__(*groups)
-        self.radius = radius
-        self.image = pygame.Surface((2 * radius, 2 * radius),
-                                    pygame.SRCALPHA, 32)
-        pygame.draw.circle(self.image, pygame.Color("red"),
-                           (radius, radius), radius)
-        x = random.randrange(2 * radius, width - 2 * radius)
+        # self.radius = radius
+        # self.image = pygame.Surface((2 * radius, 2 * radius),
+        #                             pygame.SRCALPHA, 32)
+        # pygame.draw.circle(self.image, pygame.Color("red"),
+        #                    (radius, radius), radius)
+        x = random.randrange(width)
         y = 0
-        self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
+        self.rect = pygame.Rect(x, y, x + 110, y + 110)
         self.vx = 0
         self.vy = random.randrange(1, 5)
         # self.vy = 5
@@ -71,6 +93,7 @@ class MovingSquare(pygame.sprite.Sprite):
         self.pos[0] = self.pos[0]
         self.pos[1] += 10
 
+
 n = 0
 if __name__ == '__main__':
     running = True
@@ -86,7 +109,7 @@ if __name__ == '__main__':
     Border(5, 5, 5, height - 5, vertical_borders, all_sprites)
     Border(width - 5, 5, width - 5, height - 5, vertical_borders, all_sprites)
     for i in range(10):
-        Ball(20, balls, all_sprites)
+        Ball(balls, all_sprites)
     while running:
         n += 1
         for event in pygame.event.get():
