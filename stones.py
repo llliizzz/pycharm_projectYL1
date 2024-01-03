@@ -28,7 +28,7 @@ def load_image(name, colorkey=None):
 
 
 class Ball(pygame.sprite.Sprite):
-    image = load_image("stone2.jpg")
+    image = load_image("stone3.png")
 
     def __init__(self, *groups):
         super().__init__(*groups)
@@ -50,7 +50,7 @@ class Ball(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, horizontal_borders):
             k += 1
         # if pygame.sprite.spritecollideany(self, vertical_borders):
-        #     self.vx = -self.vx
+        #      del pygame.sprite
 
 
 class Border(pygame.sprite.Sprite):
@@ -110,13 +110,16 @@ if __name__ == '__main__':
     Border(width - 5, 5, width - 5, height - 5, vertical_borders, all_sprites)
     for i in range(10):
         Ball(balls, all_sprites)
+    fon = pygame.transform.scale(load_image('background.jpg'), (width, height))
+    screen.blit(fon, (0, 0))
+
     while running:
         n += 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        screen.fill((255, 255, 255),
-                    (0, 0, width, height))
+        # screen.fill((255, 255, 255),
+        #             (0, 0, width, height))
         balls.update()
         vertical_borders.draw(screen)
         horizontal_borders.draw(screen)
