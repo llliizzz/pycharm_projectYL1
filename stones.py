@@ -108,8 +108,6 @@ if __name__ == '__main__':
     Border(5, height - 5, width - 5, height - 5, horizontal_borders, all_sprites)
     Border(5, 5, 5, height - 5, vertical_borders, all_sprites)
     Border(width - 5, 5, width - 5, height - 5, vertical_borders, all_sprites)
-    for i in range(10):
-        Ball(balls, all_sprites)
     fon = pygame.transform.scale(load_image('background.jpg'), (width, height))
     screen.blit(fon, (0, 0))
 
@@ -118,6 +116,8 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+        for i in range(10):
+            Ball(balls, all_sprites)
         fon = pygame.transform.scale(load_image('background.jpg'), (width, height)) # обновляется фон
         screen.blit(fon, (0, 0))
         balls.update()
