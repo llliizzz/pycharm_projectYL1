@@ -118,8 +118,8 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        # screen.fill((255, 255, 255),
-        #             (0, 0, width, height))
+        fon = pygame.transform.scale(load_image('background.jpg'), (width, height)) # обновляется фон
+        screen.blit(fon, (0, 0))
         balls.update()
         vertical_borders.draw(screen)
         horizontal_borders.draw(screen)
