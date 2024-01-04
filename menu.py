@@ -77,3 +77,6 @@ if __name__ == '__main__':
         start_menu.draw(surface)
 
         pygame.display.flip()
+
+
+# pip install pygame-menu
