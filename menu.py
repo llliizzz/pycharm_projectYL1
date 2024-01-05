@@ -49,8 +49,9 @@ arrow = pygame_menu.widgets.LeftArrowSelection(arrow_size=(10, 15))
 
 update_loading = pygame.USEREVENT + 0
 
+fl = True
 if __name__ == '__main__':
-    while True:
+    while fl:
         events = pygame.event.get()
         for event in events:
             if event.type == update_loading:
@@ -59,8 +60,9 @@ if __name__ == '__main__':
                 if progress.get_value() == 100:
                     pygame.time.set_timer(update_loading, 0)
             if event.type == pygame.QUIT:
-                pygame.quit()
-                break
+                fl = False
+                # pygame.quit()
+                # break
             if event.type == pygame.VIDEORESIZE:
                 surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                 on_resize()
