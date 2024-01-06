@@ -6,6 +6,7 @@ import pygame
 
 from ball import Ball
 from coin2 import Coin
+from ship1 import SpaceShip
 
 pygame.init()
 pygame.time.set_timer(pygame.USEREVENT, 1000)
@@ -33,9 +34,7 @@ def load_image(name, colorkey=None):
 
 bg = load_image("background.jpg")
 
-ship = pygame.image.load('data/ship.png').convert_alpha()
-t_rect = ship.get_rect(centerx=W // 2, bottom=H - 20)
-#mask = pygame.mask.from_surface(ship)
+ship = SpaceShip("data\ship.png", W, H)
 
 clock = pygame.time.Clock()
 fps = 60
@@ -74,15 +73,15 @@ createCoin(coins)
 def collideBalls():
     global game_score
     for ball in balls:
-        if t_rect.collidepoint(ball.rect.center):
-            #game_score += ball.score
+        if ship.t_rect.collidepoint(ball.rect.center):
+            # game_score += ball.score
             ball.kill()
 
 
 def collideCoins():
     global game_score
     for coin in coins:
-        if t_rect.collidepoint(coin.rect.center):
+        if ship.t_rect.collidepoint(coin.rect.center):
             # game_score += ball.score
             coin.kill()
 
@@ -101,18 +100,18 @@ while True:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        t_rect.x -= speed
-        if t_rect.x < 0:
-            t_rect.x = W - t_rect.width
+        ship.t_rect.x -= speed
+        if ship.t_rect.x < 0:
+            ship.t_rect.x = W - ship.t_rect.width
     elif keys[pygame.K_RIGHT]:
-        t_rect.x += speed
-        if t_rect.x > W - t_rect.width:
-            t_rect.x = 0
+        ship.t_rect.x += speed
+        if ship.t_rect.x > W - ship.t_rect.width:
+            ship.t_rect.x = 0
 
     sc.blit(bg, (0, 0))
     balls.draw(sc)
     coins.draw(sc)
-    sc.blit(ship, t_rect)
+    sc.blit(ship.image, ship.t_rect)
     pygame.display.update()
 
     clock.tick(fps)
