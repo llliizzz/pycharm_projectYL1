@@ -9,6 +9,8 @@ surface = pygame.display.set_mode((600, 400), pygame.RESIZABLE)
 def start_the_game():
     start_menu._open(loading)
     pygame.time.set_timer(update_loading, 30)
+    name = username.get_value()  # имя
+    print(name)
 
 
 def hot_keys():
@@ -31,7 +33,8 @@ start_menu = pygame_menu.Menu(
 
 start_menu.add.label('STARRY RAIN')
 start_menu.add.label(' ')
-start_menu.add.text_input('Name: ', default='user123', maxchar=10)
+
+username = start_menu.add.text_input('Name: ', default='user123', maxchar=10)
 start_menu.add.button('Hot Keys', hot_keys)
 start_menu.add.button('Play', start_the_game)
 start_menu.add.button('Quit', pygame_menu.events.EXIT)
@@ -79,6 +82,5 @@ if __name__ == '__main__':
         start_menu.draw(surface)
 
         pygame.display.flip()
-
 
 # pip install pygame-menu
