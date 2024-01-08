@@ -11,8 +11,13 @@ from ship1 import SpaceShip
 pygame.init()
 pygame.time.set_timer(pygame.USEREVENT, 1000)
 BLACK = (0, 0, 0)
-W, H = 1000, 570
+W, H = 1300, 770
 sc = pygame.display.set_mode((W, H))
+lives = 3
+count_coins = 0
+count_balls = 0
+f = pygame.font.SysFont('arial', 30)
+game_running = True
 
 
 def load_image(name, colorkey=None):
@@ -68,26 +73,45 @@ createCoin(coins)
 
 def collideBalls():
     global game_score
+    global lives
+    global running
     for ball in balls:
         # if t_rect.collidepoint(ball.rect.center):
         # game_score += ball.score
         if ship.t_rect.collidepoint(ball.rect.center):
             # game_score += ball.score
             ball.kill()
+            if lives > 1:
+                lives -= 1
+            else:
+                running = False
+            # проигрыш
 
 
 def collideCoins():
+    global count_coins
+    global count_balls
     global game_score
+    global lives
     for coin in coins:
         # if t_rect.collidepoint(coin.rect.center):
         if ship.t_rect.collidepoint(coin.rect.center):
             # game_score += ball.score
             coin.kill()
+            count_coins += 5
+            count_balls += 10
+            if count_coins == 1:
+                count_coins = 0
+                if lives < 3:
+                    lives += 1
 
 
 k = 0
 speed = 10
-while True:
+running = True
+while running:
+    # if game_running == False:
+    #     running = False
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
@@ -111,6 +135,30 @@ while True:
     balls.draw(sc)
     coins.draw(sc)
     sc.blit(ship.image, ship.t_rect)
+    sc.blit(load_image('notch.png'), (0, 0))
+    all_balls = count_balls + k * 10
+
+    sc_str1 = f.render(str("Баллы"), 1, (0, 0, 0))
+    sc.blit(sc_str1, (20, 10))
+
+    sc_balls = f.render(str(all_balls), 1, (0, 0, 0))
+    sc.blit(sc_balls, (40, 40))
+
+    sc_str2 = f.render(str("Жизни"), 1, (0, 0, 0))
+    sc.blit(sc_str2, (120, 10))
+
+    sc_text = f.render(str(lives), 1, (0, 0, 0))
+    sc.blit(sc_text, (150, 40))
+    if lives == 3:
+        sc.blit(load_image('life.png'), (0, 65))
+        sc.blit(load_image('life.png'), (77, 65))
+        sc.blit(load_image('life.png'), (154, 65))
+    if lives == 2:
+        sc.blit(load_image('life.png'), (0, 65))
+        sc.blit(load_image('life.png'), (77, 65))
+    else:
+        sc.blit(load_image('life.png'), (0, 65))
+
     pygame.display.update()
 
     clock.tick(fps)
