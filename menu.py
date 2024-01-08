@@ -1,3 +1,5 @@
+import sqlite3
+
 import pygame
 import pygame_menu
 from pygame_menu import themes
@@ -9,6 +11,29 @@ surface = pygame.display.set_mode((600, 400), pygame.RESIZABLE)
 def start_the_game():
     start_menu._open(loading)
     pygame.time.set_timer(update_loading, 30)
+    # name = username.get_value()  # имя
+
+    name = username.get_value()
+
+    connection = sqlite3.connect('starry_rain.sqlite')
+    cursor = connection.cursor()
+    result_id = cursor.execute("""SELECT id FROM top ORDER BY id DESC limit 1""").fetchall()
+    id = result_id[0][0]
+    cursor.execute("INSERT INTO top VALUES (?,?,?)", (id + 1, name, ''))
+
+    connection.commit()
+    connection.close()
+
+
+def get_id():
+    connection = sqlite3.connect('starry_rain.sqlite')
+    cursor = connection.cursor()
+    result_id = cursor.execute("""SELECT id FROM top ORDER BY id DESC limit 1""").fetchall()
+    id = result_id[0][0]
+
+    connection.commit()
+    connection.close()
+    return (id)
 
 
 def hot_keys():
@@ -31,24 +56,22 @@ start_menu = pygame_menu.Menu(
 
 start_menu.add.label('STARRY RAIN')
 start_menu.add.label(' ')
-start_menu.add.text_input('Name: ', default='user123', maxchar=10)
+# start_menu.add.text_input('Name: ', default='user123', maxchar=10)
+
+username = start_menu.add.text_input('Name: ', default=('user' + get_id()), maxchar=10)
+
 start_menu.add.button('Hot Keys', hot_keys)
 start_menu.add.button('Play', start_the_game)
 start_menu.add.button('Quit', pygame_menu.events.EXIT)
 start_menu.enable()
 on_resize()
-
 hot_menu = pygame_menu.Menu('Hot keys', 600, 400, theme=themes.THEME_BLUE)
 hot_menu.add.label(title='Esc - выход из игры')
 hot_menu.add.label(title='Пробел - пауза')
-
 loading = pygame_menu.Menu('Loading the Game...', 600, 400, theme=themes.THEME_DARK)
 loading.add.progress_bar("Progress", progressbar_id="1", default=0, width=200, )
-
 arrow = pygame_menu.widgets.LeftArrowSelection(arrow_size=(10, 15))
-
 update_loading = pygame.USEREVENT + 0
-
 fl = True
 if __name__ == '__main__':
     while fl:
@@ -66,19 +89,13 @@ if __name__ == '__main__':
             if event.type == pygame.VIDEORESIZE:
                 surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                 on_resize()
-
         if start_menu.is_enabled():
             start_menu.update(events)
             start_menu.draw(surface)
             if start_menu.get_current().get_selected_widget():
                 arrow.draw(surface, start_menu.get_current().get_selected_widget())
-
         surface.fill((25, 0, 50))
-
         start_menu.update(events)
         start_menu.draw(surface)
 
         pygame.display.flip()
-
-
-# pip install pygame-menu
