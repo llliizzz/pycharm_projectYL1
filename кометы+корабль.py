@@ -1,4 +1,5 @@
 import os
+import sqlite3
 import sys
 from random import randint
 
@@ -7,6 +8,7 @@ import pygame
 from ball import Ball
 from coin2 import Coin
 from ship1 import SpaceShip
+from AnimatedLife import AnimatedLife
 
 pygame.init()
 pygame.time.set_timer(pygame.USEREVENT, 1000)
@@ -17,7 +19,6 @@ lives = 3
 count_coins = 0
 count_balls = 0
 f = pygame.font.SysFont('arial', 30)
-game_running = True
 
 
 def load_image(name, colorkey=None):
@@ -44,11 +45,23 @@ ship = SpaceShip("data\ship.png", W, H)
 
 clock = pygame.time.Clock()
 fps = 60
-balls_images = ['stone4.png', 'stone5.png', 'stone6.png']
+balls_images = ['stone4.png', 'stone5.png', 'stone3.png']
 balls_surf = [load_image(path) for path in balls_images]
 coins_surf = load_image('coin.png')
 balls = pygame.sprite.Group()
 coins = pygame.sprite.Group()
+
+
+# def get_balls():
+#
+#     connection = sqlite3.connect('starry_rain.sqlite.sqlite')
+#     cursor = connection.cursor()
+#     result_id = cursor.execute("""SELECT id FROM top ORDER BY id DESC limit 1""").fetchall()
+#     id = result_id[0][0]
+#     cursor.execute("INSERT INTO top VALUES (?,?,?)", (id, '', all_balls))
+#
+#     connection.commit()
+#     connection.close()
 
 
 def createBall(group):
@@ -85,6 +98,11 @@ def collideBalls():
                 lives -= 1
             else:
                 running = False
+                # get_balls()
+                all_balls = 0
+                lives = 3
+                count_coins = 0
+                count_balls = 0
             # проигрыш
 
 
@@ -109,9 +127,9 @@ def collideCoins():
 k = 0
 speed = 10
 running = True
+all_sprites = pygame.sprite.Group()
+heart = pygame.sprite.GroupSingle()
 while running:
-    # if game_running == False:
-    #     running = False
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
@@ -149,8 +167,10 @@ while running:
 
     sc_text = f.render(str(lives), 1, (0, 0, 0))
     sc.blit(sc_text, (150, 40))
+    # heart = AnimatedLife(load_image('hearts.png'), 5, 2, 0, 65)
     if lives == 3:
         sc.blit(load_image('life.png'), (0, 65))
+        # heart = AnimatedLife(load_image('hearts.png'), 5, 2, 0, 65, heart, all_sprites)
         sc.blit(load_image('life.png'), (77, 65))
         sc.blit(load_image('life.png'), (154, 65))
     if lives == 2:
