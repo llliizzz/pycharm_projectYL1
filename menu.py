@@ -38,7 +38,7 @@ class Menu():
         loading = pygame_menu.Menu('Loading the Game...', 600, 400, theme=themes.THEME_DARK)
         loading.add.progress_bar("Progress", progressbar_id="1", default=0, width=200, )
         arrow = pygame_menu.widgets.LeftArrowSelection(arrow_size=(10, 15))
-        update_loading = pygame.USEREVENT + 0
+        self.update_loading = pygame.USEREVENT + 0
 
     def start_the_game(self):
         self.start_menu._open(self.loading)
