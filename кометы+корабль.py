@@ -129,8 +129,6 @@ def collideCoins():
 k = 0
 speed = 10
 running = True
-all_sprites = pygame.sprite.Group()
-heart = pygame.sprite.GroupSingle()
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -169,10 +167,10 @@ while running:
 
     sc_text = f.render(str(lives), 1, (0, 0, 0))
     sc.blit(sc_text, (150, 40))
-    # heart = AnimatedLife(load_image('hearts.png'), 5, 2, 0, 65)
+
     if lives == 3:
-        sc.blit(load_image('life.png'), (0, 65))
-        # heart = AnimatedLife(load_image('hearts.png'), 5, 2, 0, 65, all_sprites)
+        # sc.blit(load_image('life.png'), (0, 65))
+        heart = AnimatedLife(load_image('hearts.png'), 2, 5, 0, 65, hearts)
         sc.blit(load_image('life.png'), (77, 65))
         sc.blit(load_image('life.png'), (154, 65))
     if lives == 2:
