@@ -48,8 +48,10 @@ fps = 60
 balls_images = ['stone4.png', 'stone5.png', 'stone3.png']
 balls_surf = [load_image(path) for path in balls_images]
 coins_surf = load_image('coin.png')
+hearts_surf = load_image('hearts.png')
 balls = pygame.sprite.Group()
 coins = pygame.sprite.Group()
+hearts = pygame.sprite.Group()
 
 
 # def get_balls():
@@ -170,7 +172,7 @@ while running:
     # heart = AnimatedLife(load_image('hearts.png'), 5, 2, 0, 65)
     if lives == 3:
         sc.blit(load_image('life.png'), (0, 65))
-        # heart = AnimatedLife(load_image('hearts.png'), 5, 2, 0, 65, heart, all_sprites)
+        # heart = AnimatedLife(load_image('hearts.png'), 5, 2, 0, 65, all_sprites)
         sc.blit(load_image('life.png'), (77, 65))
         sc.blit(load_image('life.png'), (154, 65))
     if lives == 2:
