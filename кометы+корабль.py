@@ -52,16 +52,19 @@ balls = pygame.sprite.Group()
 coins = pygame.sprite.Group()
 
 
-# def get_balls():
-#
-#     connection = sqlite3.connect('starry_rain.sqlite.sqlite')
-#     cursor = connection.cursor()
-#     result_id = cursor.execute("""SELECT id FROM top ORDER BY id DESC limit 1""").fetchall()
-#     id = result_id[0][0]
-#     cursor.execute("INSERT INTO top VALUES (?,?,?)", (id, '', all_balls))
-#
-#     connection.commit()
-#     connection.close()
+def get_balls():
+
+    connection = sqlite3.connect('starry_rain1.sqlite')
+    cursor = connection.cursor()
+    connection.commit()
+    cursor.execute("CREATE TABLE IF NOT EXIST 'top' (Username TEXT, Balls INTEGER")
+    connection.commit()
+    result_id = cursor.execute("""SELECT id FROM top ORDER BY id DESC limit 1""").fetchall()
+    id1 = result_id[0][0]
+    cursor.execute("INSERT INTO top VALUES (?,?)", ('', all_balls))
+
+    connection.commit()
+    connection.close()
 
 
 def createBall(group):
@@ -143,11 +146,11 @@ while running:
     if keys[pygame.K_LEFT]:
         ship.t_rect.x -= speed
         if ship.t_rect.x < 0:
-            ship.t_rect.x = W - ship.t_rect.width
+            ship.t_rect.x = 0
     elif keys[pygame.K_RIGHT]:
         ship.t_rect.x += speed
         if ship.t_rect.x > W - ship.t_rect.width:
-            ship.t_rect.x = 0
+            ship.t_rect.x = W - ship.t_rect.width
 
     sc.blit(bg, (0, 0))
     balls.draw(sc)
