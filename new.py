@@ -20,6 +20,7 @@ count_balls = 0
 f = pygame.font.SysFont('arial', 30)
 pygame.mixer.music.load('game_music.mp3')
 boom_sound = pygame.mixer.Sound('boom.wav')
+coin_sound = pygame.mixer.Sound('coin.wav')
 
 
 def load_image(name, colorkey=None):
@@ -119,6 +120,7 @@ def collideCoins():
         # if t_rect.collidepoint(coin.rect.center):
         if ship.t_rect.collidepoint(coin.rect.center):
             # game_score += ball.score
+            coin_sound.play()
             coin.kill()
             count_coins += 5
             count_balls += 10
