@@ -18,6 +18,8 @@ lives = 3
 count_coins = 0
 count_balls = 0
 f = pygame.font.SysFont('arial', 30)
+pygame.mixer.music.load('game_music.mp3')
+boom_sound = pygame.mixer.Sound('boom.wav')
 
 
 def load_image(name, colorkey=None):
@@ -90,6 +92,7 @@ def collideBalls():
         # if t_rect.collidepoint(ball.rect.center):
         # game_score += ball.score
         if ship.t_rect.collidepoint(ball.rect.center):
+            boom_sound.play()
             # p = Particle(ball.rect.center)
             # game_score += ball.score
             ball.kill()
@@ -160,6 +163,7 @@ speed = 10
 running = True
 all_sprites = pygame.sprite.Group()
 while running:
+    pygame.mixer.music.play()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
