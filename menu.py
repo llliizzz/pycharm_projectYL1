@@ -19,7 +19,7 @@ class Menu:
     def __init__(self):
         start_menu.add.label('STARRY RAIN')
         start_menu.add.label(' ')
-        self.username = start_menu.add.text_input('Name: ', default=('user' + str(self.get_id())), maxchar=10)
+        self.username = start_menu.add.text_input('Name: ', default=(f"user{self.get_id()}"), maxchar=10)
         start_menu.add.button('Hot Keys', self.hot_keys)
         start_menu.add.button('Play', self.start_the_game)
         start_menu.add.button('Quit', pygame_menu.events.EXIT)
@@ -49,7 +49,7 @@ class Menu:
 
         connection = sqlite3.connect('starry_rain1.sqlite')
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO top VALUES (?, ?,?)", (id1 + 1, 'self.name', ''))
+        cursor.execute("INSERT INTO top VALUES (?, ?,?)", (id1 + 1, self.name, ''))
         connection.commit()
         connection.close()
 
