@@ -1,3 +1,5 @@
+import sqlite3
+
 import pygame
 import pygame_menu
 from pygame_menu import themes
@@ -13,12 +15,11 @@ start_menu = pygame_menu.Menu(
 )
 
 
-# noinspection PyGlobalUndefined
 class Menu:
     def __init__(self):
         start_menu.add.label('STARRY RAIN')
         start_menu.add.label(' ')
-        start_menu.add.text_input('Name: ', default='user123', maxchar=10)
+        self.username = start_menu.add.text_input('Name: ', default=('user' + str(self.get_id())), maxchar=10)
         start_menu.add.button('Hot Keys', self.hot_keys)
         start_menu.add.button('Play', self.start_the_game)
         start_menu.add.button('Quit', pygame_menu.events.EXIT)
@@ -42,6 +43,16 @@ class Menu:
         start_menu._open(loading)
         pygame.time.set_timer(update_loading, 30)
 
+        self.name = self.username.get_value()
+
+        id1 = self.get_id()
+
+        connection = sqlite3.connect('starry_rain1.sqlite')
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO top VALUES (?, ?,?)", (id1 + 1, 'self.name', ''))
+        connection.commit()
+        connection.close()
+
     def hot_keys(self):
         start_menu._open(hot_menu)
 
@@ -50,6 +61,15 @@ class Menu:
         new_w, new_h = window_size[0], window_size[1]
         start_menu.resize(new_w, new_h)
 
+    def get_id(self):
+        connection = sqlite3.connect('starry_rain1.sqlite')
+        cursor = connection.cursor()
+        connection.commit()
+        cursor.execute("CREATE TABLE IF NOT EXISTS 'top' (id INTEGER, Username TEXT, Balls INTEGER)")
+        connection.commit()
+        result_id = cursor.execute("""SELECT id FROM top ORDER BY id DESC limit 1""").fetchall()
+        id1 = result_id[0][0]
+        return (id1)
 
 fl = True
 update_loading = pygame.USEREVENT + 0
@@ -79,4 +99,3 @@ if __name__ == '__main__':
         start_menu.update(events)
         start_menu.draw(surface)
         pygame.display.flip()
-# pip install pygame-menu
