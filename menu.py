@@ -6,11 +6,12 @@ pygame.init()
 surface = pygame.display.set_mode((600, 400), pygame.RESIZABLE)
 pygame.display.set_caption("Starry rain")
 start_menu = pygame_menu.Menu(
-            height=400,
-            theme=pygame_menu.themes.THEME_BLUE,
-            title='Welcome',
-            width=600
-        )
+    height=400,
+    theme=pygame_menu.themes.THEME_BLUE,
+    title='Welcome',
+    width=600
+)
+
 
 # noinspection PyGlobalUndefined
 class Menu:
