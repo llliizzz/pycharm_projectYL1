@@ -146,7 +146,7 @@ class Particle(pygame.sprite.Sprite):
         # гравитация будет одинаковой (значение константы)
         self.gravity = 5
 
-    screen_rect = (0, 0, W, H)
+        self.screen_rect = (0, 0, W, H)
 
     def update(self):
         global screen_rect
@@ -157,7 +157,7 @@ class Particle(pygame.sprite.Sprite):
         self.rect.x += self.velocity[0]
         self.rect.y += self.velocity[1]
         # убиваем, если частица ушла за экран
-        if not self.rect.colliderect(screen_rect):
+        if not self.rect.colliderect(self.screen_rect):
             self.kill()
 
     def create_particles(position):
@@ -165,7 +165,7 @@ class Particle(pygame.sprite.Sprite):
         particle_count = 20
         # возможные скорости
         numbers = range(-5, 6)
-        for _ in range(particle_count):
+        for _ in range(20):
             Particle(position, random.choice(numbers), random.choice(numbers))
 
 
@@ -217,6 +217,7 @@ while running:
     else:
         sc.blit(load_image('life.png'), (0, 65))
     all_sprites.draw(sc)
+    all_sprites.update()
     pygame.display.update()
     clock.tick(fps)
     balls.update(H)
