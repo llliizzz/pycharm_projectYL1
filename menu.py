@@ -21,7 +21,7 @@ class Menu:
         start_menu.add.label(' ')
         self.username = start_menu.add.text_input('Name: ', default=(f"user{self.get_id() + 1}"), maxchar=10)
         start_menu.add.button('Hot Keys', self.hot_keys)
-        start_menu.add.selector('Difficulty :', [('Hard', 1), ('Easy', 2)], onchange=self.set_difficulty)
+        start_menu.add.selector('Difficulty :', [('Easy', 1), ('Normal', 2), ('Hard', 3)], onchange=self.set_difficulty)
         start_menu.add.button('Play', self.start_the_game)
         start_menu.add.button('Quit', pygame_menu.events.EXIT)
         start_menu.enable()
@@ -96,14 +96,14 @@ if __name__ == '__main__':
                 fl = False
                 # pygame.quit()
                 # break
-            if event.type == pygame.VIDEORESIZE:
-                surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                Menu.on_resize(Menu)
-        if start_menu.is_enabled():
-            start_menu.update(events)
-            start_menu.draw(surface)
-            if start_menu.get_current().get_selected_widget():
-                arrow.draw(surface, start_menu.get_current().get_selected_widget())
+            # if event.type == pygame.VIDEORESIZE:
+            #     surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+            #     Menu.on_resize(Menu)
+        # if start_menu.is_enabled():
+        #     start_menu.update(events)
+        #     start_menu.draw(surface)
+        #     if start_menu.get_current().get_selected_widget():
+        #         arrow.draw(surface, start_menu.get_current().get_selected_widget())
         surface.fill((25, 0, 50))
         start_menu.update(events)
         start_menu.draw(surface)

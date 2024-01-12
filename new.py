@@ -176,6 +176,9 @@ k = 0
 speed = 10
 running = True
 all_sprites = pygame.sprite.Group()
+heart1 = AnimatedLife(load_image('heart1.png'), 5, 2, 10, 70, all_sprites)
+heart2 = AnimatedLife(load_image('heart1.png'), 5, 2, 70, 70, all_sprites)
+heart3 = AnimatedLife(load_image('heart1.png'), 5, 2, 130, 70, all_sprites)
 while running:
     # pygame.mixer.music.play()
     for event in pygame.event.get():
@@ -215,17 +218,12 @@ while running:
     sc_text = f.render(str(lives), 1, (0, 0, 0))
     sc.blit(sc_text, (150, 40))
 
-    # if lives == 3:
-    #     heart1 = AnimatedLife(load_image('heart1.png'), 5, 2, 10, 70, all_sprites)
-    #     heart2 = AnimatedLife(load_image('heart1.png'), 5, 2, 70, 70, all_sprites)
-    #     heart3 = AnimatedLife(load_image('heart1.png'), 5, 2, 130, 70, all_sprites)
-    # if lives == 2:
-    #     heart4 = AnimatedLife(load_image('heart1.png'), 5, 2, 10, 70, all_sprites)
-    #     heart5 = AnimatedLife(load_image('heart1.png'), 5, 2, 70, 70, all_sprites)
-    # else:
-    #     heart6 = AnimatedLife(load_image('heart1.png'), 5, 2, 10, 70, all_sprites)
-    for i in range(lives):
-        heart1 = AnimatedLife(load_image('heart1.png'), 5, 2, (10 + 60 * i), 70, all_sprites)
+
+    if lives == 2:
+        heart3.kill()
+    elif lives == 1:
+        heart2.kill()
+
 
     all_sprites.draw(sc)
     all_sprites.update()
