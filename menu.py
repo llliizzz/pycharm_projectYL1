@@ -5,10 +5,10 @@ import pygame_menu
 from pygame_menu import themes
 
 pygame.init()
-surface = pygame.display.set_mode((600, 400), pygame.RESIZABLE)
+surface = pygame.display.set_mode((600, 500), pygame.RESIZABLE)
 pygame.display.set_caption("Starry rain")
 start_menu = pygame_menu.Menu(
-    height=400,
+    height=500,
     theme=pygame_menu.themes.THEME_BLUE,
     title='Welcome',
     width=600
@@ -21,19 +21,22 @@ class Menu:
         start_menu.add.label(' ')
         self.username = start_menu.add.text_input('Name: ', default=(f"user{self.get_id() + 1}"), maxchar=10)
         start_menu.add.button('Hot Keys', self.hot_keys)
+        start_menu.add.selector('Difficulty :', [('Hard', 1), ('Easy', 2)], onchange=self.set_difficulty)
         start_menu.add.button('Play', self.start_the_game)
         start_menu.add.button('Quit', pygame_menu.events.EXIT)
         start_menu.enable()
 
         self.on_resize()
 
+
+
         global hot_menu
-        hot_menu = pygame_menu.Menu('Hot keys', 600, 400, theme=themes.THEME_BLUE)
+        hot_menu = pygame_menu.Menu('Hot keys', 600, 500, theme=themes.THEME_BLUE)
         hot_menu.add.label(title='Esc - выход из игры')
         hot_menu.add.label(title='Пробел - пауза')
 
         global loading
-        loading = pygame_menu.Menu('Loading the Game...', 600, 400, theme=themes.THEME_DARK)
+        loading = pygame_menu.Menu('Loading the Game...', 600, 500, theme=themes.THEME_DARK)
         loading.add.progress_bar("Progress", progressbar_id="1", default=0, width=200, )
 
         global arrow
@@ -53,6 +56,10 @@ class Menu:
         connection.commit()
         connection.close()
 
+    def set_difficulty(self, value, difficulty):
+        print(value)
+        print(difficulty)
+
     def hot_keys(self):
         start_menu._open(hot_menu)
 
@@ -71,10 +78,12 @@ class Menu:
         id1 = result_id[0][0]
         return (id1)
 
+
 fl = True
 update_loading = pygame.USEREVENT + 0
 if __name__ == '__main__':
     Menu()
+    #start_menu.mainloop(surface)
     while fl:
         events = pygame.event.get()
         for event in events:
@@ -89,7 +98,7 @@ if __name__ == '__main__':
                 # break
             if event.type == pygame.VIDEORESIZE:
                 surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                Menu.on_resize()
+                Menu.on_resize(Menu)
         if start_menu.is_enabled():
             start_menu.update(events)
             start_menu.draw(surface)
