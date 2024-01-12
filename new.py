@@ -18,6 +18,8 @@ lives = 3
 count_coins = 0
 count_balls = 0
 f = pygame.font.SysFont('arial', 30)
+
+
 # pygame.mixer.music.load('game_music.mp3')
 # boom_sound = pygame.mixer.Sound('boom.wav')
 # coin_sound = pygame.mixer.Sound('coin.wav')
@@ -56,11 +58,17 @@ def get_balls():
     connection = sqlite3.connect('starry_rain1.sqlite')
     cursor = connection.cursor()
     connection.commit()
+
     cursor.execute("CREATE TABLE IF NOT EXISTS 'top' (id INTEGER, Username TEXT, Balls INTEGER)")
     connection.commit()
-    result_id = cursor.execute("""SELECT id FROM top ORDER BY id DESC limit 1""").fetchall()
+    result_id = cursor.execute("""SELECT id, Username FROM top ORDER BY id DESC limit 1""").fetchall()
+
     id1 = result_id[0][0]
-    cursor.execute("INSERT INTO top VALUES (?, ?,?)", (id1 + 1, '', all_balls))
+    user1 = result_id[0][1]
+    # print(user1)
+
+    # cursor.execute("INSERT INTO top VALUES (?, ?, ?)", (id1, user1, all_balls))
+    cursor.execute(f'UPDATE top SET Balls={all_balls} WHERE id={id1}')
     connection.commit()
     connection.close()
 
@@ -93,7 +101,7 @@ def collideBalls():
         # if t_rect.collidepoint(ball.rect.center):
         # game_score += ball.score
         if ship.t_rect.collidepoint(ball.rect.center):
-            #boom_sound.play()
+            # boom_sound.play()
             # p = Particle(ball.rect.center)
             # game_score += ball.score
             ball.kill()
@@ -116,11 +124,12 @@ def collideCoins():
     global count_balls
     global game_score
     global lives
+
     for coin in coins:
         # if t_rect.collidepoint(coin.rect.center):
         if ship.t_rect.collidepoint(coin.rect.center):
             # game_score += ball.score
-            coin_sound.play()
+            # coin_sound.play()
             coin.kill()
             count_coins += 5
             count_balls += 10
@@ -132,6 +141,7 @@ def collideCoins():
 
 class Particle(pygame.sprite.Sprite):
     fire = [load_image("star.png")]
+
     for scale in (5, 10, 20):
         fire.append(pygame.transform.scale(fire[0], (scale, scale)))
 
@@ -139,6 +149,7 @@ class Particle(pygame.sprite.Sprite):
         super().__init__(all_sprites)
         self.image = random.choice(self.fire)
         self.rect = self.image.get_rect()
+
         self.velocity = [dx, dy]
         self.rect.x, self.rect.y = pos
         self.gravity = 1
@@ -150,6 +161,7 @@ class Particle(pygame.sprite.Sprite):
         self.velocity[1] += self.gravity
         self.rect.x += self.velocity[0]
         self.rect.y += self.velocity[1]
+
         if not self.rect.colliderect(self.screen_rect):
             self.kill()
 
@@ -165,7 +177,7 @@ speed = 10
 running = True
 all_sprites = pygame.sprite.Group()
 while running:
-    #pygame.mixer.music.play()
+    # pygame.mixer.music.play()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
@@ -174,6 +186,7 @@ while running:
             k += 1
             if not (k % 5):
                 createCoin(coins)
+
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         ship.t_rect.x -= speed
@@ -183,11 +196,15 @@ while running:
         ship.t_rect.x += speed
         if ship.t_rect.x > W - ship.t_rect.width:
             ship.t_rect.x = W - ship.t_rect.width
+
+
     sc.blit(bg, (0, 0))
     balls.draw(sc)
     coins.draw(sc)
+
     sc.blit(ship.image, ship.t_rect)
     sc.blit(load_image('notch.png'), (0, 0))
+
     all_balls = count_balls + k * 10
     sc_str1 = f.render(str("Баллы"), 1, (0, 0, 0))
     sc.blit(sc_str1, (20, 10))
