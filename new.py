@@ -18,9 +18,9 @@ lives = 3
 count_coins = 0
 count_balls = 0
 f = pygame.font.SysFont('arial', 30)
-# pygame.mixer.music.load('game_music.mp3')
-# boom_sound = pygame.mixer.Sound('boom.wav')
-# coin_sound = pygame.mixer.Sound('coin.wav')
+# pygame.mixer.music.load('game_music (2).mp3')
+boom_sound = pygame.mixer.Sound('boom_sound.wav')
+coin_sound = pygame.mixer.Sound('coin_sound.wav')
 
 
 def load_image(name, colorkey=None):
@@ -39,9 +39,6 @@ def load_image(name, colorkey=None):
 
 
 bg = load_image("background.jpg")
-# ship = pygame.image.load('data/ship.png').convert_alpha()
-# t_rect = ship.get_rect(centerx=W // 2, bottom=H - 20)
-# mask = pygame.mask.from_surface(ship)
 ship = SpaceShip("data\ship.png", W, H)
 clock = pygame.time.Clock()
 fps = 60
@@ -93,7 +90,7 @@ def collideBalls():
         # if t_rect.collidepoint(ball.rect.center):
         # game_score += ball.score
         if ship.t_rect.collidepoint(ball.rect.center):
-            # boom_sound.play()
+            boom_sound.play()
             # p = Particle(ball.rect.center)
             # game_score += ball.score
             ball.kill()
@@ -120,7 +117,7 @@ def collideCoins():
         # if t_rect.collidepoint(coin.rect.center):
         if ship.t_rect.collidepoint(coin.rect.center):
             # game_score += ball.score
-            # coin_sound.play()
+            coin_sound.play()
             coin.kill()
             count_coins += 5
             count_balls += 10
