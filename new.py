@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import os
 import random
 import sqlite3
@@ -218,3 +219,4 @@ while running:
     coins.update(H)
     collideBalls()
     collideCoins()
+
