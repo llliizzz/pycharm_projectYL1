@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import os
 import random
 import sqlite3
@@ -19,9 +18,9 @@ lives = 3
 count_coins = 0
 count_balls = 0
 f = pygame.font.SysFont('arial', 30)
-pygame.mixer.music.load('game_music.mp3')
-boom_sound = pygame.mixer.Sound('boom.wav')
-coin_sound = pygame.mixer.Sound('coin.wav')
+# pygame.mixer.music.load('game_music.mp3')
+# boom_sound = pygame.mixer.Sound('boom.wav')
+# coin_sound = pygame.mixer.Sound('coin.wav')
 
 
 def load_image(name, colorkey=None):
@@ -94,7 +93,7 @@ def collideBalls():
         # if t_rect.collidepoint(ball.rect.center):
         # game_score += ball.score
         if ship.t_rect.collidepoint(ball.rect.center):
-            boom_sound.play()
+            # boom_sound.play()
             # p = Particle(ball.rect.center)
             # game_score += ball.score
             ball.kill()
@@ -121,7 +120,7 @@ def collideCoins():
         # if t_rect.collidepoint(coin.rect.center):
         if ship.t_rect.collidepoint(coin.rect.center):
             # game_score += ball.score
-            coin_sound.play()
+            # coin_sound.play()
             coin.kill()
             count_coins += 5
             count_balls += 10
@@ -166,7 +165,7 @@ speed = 10
 running = True
 all_sprites = pygame.sprite.Group()
 while running:
-    pygame.mixer.music.play()
+    # pygame.mixer.music.play()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
@@ -219,4 +218,3 @@ while running:
     coins.update(H)
     collideBalls()
     collideCoins()
-
