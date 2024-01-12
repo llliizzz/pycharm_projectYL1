@@ -57,8 +57,7 @@ def get_balls():
     connection.commit()
     result_id = cursor.execute("""SELECT id FROM top ORDER BY id DESC limit 1""").fetchall()
     id1 = result_id[0][0]
-    cursor.execute("INSERT INTO top VALUES (?, ?,?)", (id1 + 1, '', all_balls))
-
+    cursor.execute("INSERT INTO top VALUES (?, ?,?)", (id1, '', all_balls))
     connection.commit()
     connection.close()
 
@@ -84,7 +83,6 @@ createCoin(coins)
 
 
 def collideBalls():
-
     global game_score
     global lives
     global running
