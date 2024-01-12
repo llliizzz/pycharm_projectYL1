@@ -209,4 +209,13 @@ while running:
     elif lives == 1:
         heart2.kill()
 
+    all_sprites.draw(sc)
+    all_sprites.update()
+    pygame.display.update()
+    clock.tick(fps)
+    balls.update(H)
+    coins.update(H)
+    collideBalls()
+    collideCoins()
+
 
