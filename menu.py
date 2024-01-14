@@ -60,7 +60,7 @@ def startScreen():
             connection.close()
 
         def set_difficulty(self, value, difficulty):
-            print(value)
+            #print(value)
             print(difficulty)
 
         def hot_keys(self):
