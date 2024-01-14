@@ -53,8 +53,9 @@ def startScreen():
 
             connection = sqlite3.connect('starry_rain1.sqlite')
             cursor = connection.cursor()
+
             cursor.execute("INSERT INTO top VALUES (?,?,?)", (id1 + 1, self.name, 0))
-            cursor.execute("INSERT INTO LastState (State) VALUES ('GAME')")
+
             connection.commit()
             connection.close()
 
@@ -92,7 +93,27 @@ def startScreen():
                 progress.set_value(progress.get_value() + 1)
                 if progress.get_value() == 100:
                     pygame.time.set_timer(update_loading, 0)
+
+                    connection = sqlite3.connect('starry_rain1.sqlite')
+                    cursor = connection.cursor()
+
+                    prev_id = cursor.execute("""SELECT id FROM LastState ORDER BY id DESC limit 1""").fetchall()
+                    id1 = prev_id[0][0]
+                    cursor.execute("INSERT INTO LastState (id, State) VALUES (?, ?)", (id1 + 1, 'GAME'))
+
+                    connection.commit()
+                    connection.close()
+                    fl = False
             if event.type == pygame.QUIT:
+                connection = sqlite3.connect('starry_rain1.sqlite')
+                cursor = connection.cursor()
+
+                prev_id = cursor.execute("""SELECT id FROM LastState ORDER BY id DESC limit 1""").fetchall()
+                id1 = prev_id[0][0]
+                cursor.execute("INSERT INTO LastState (id, State) VALUES (?, ?)", (id1 + 1, 'EXIT'))
+
+                connection.commit()
+                connection.close()
                 fl = False
             # if event.type == pygame.VIDEORESIZE:
             #     surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
