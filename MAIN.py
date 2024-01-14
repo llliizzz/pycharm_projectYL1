@@ -5,7 +5,6 @@ import pygame
 import pygame_menu
 from pygame_menu import themes
 
-
 from menu import startScreen
 from FINAL import finalScreen
 
@@ -20,6 +19,9 @@ def addState(state):
     connection.close()
 
 
+# addState('MENU')
+
+
 def checkState():
     connection = sqlite3.connect('starry_rain1.sqlite')
     cursor = connection.cursor()
@@ -29,6 +31,5 @@ def checkState():
     return currentState[0][1]
 
 
-addState('MENU')
 startScreen()
 print(checkState())
