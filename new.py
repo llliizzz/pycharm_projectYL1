@@ -185,7 +185,6 @@ while running:
         if ship.t_rect.x > W - ship.t_rect.width:
             ship.t_rect.x = W - ship.t_rect.width
 
-
     sc.blit(bg, (0, 0))
     balls.draw(sc)
     coins.draw(sc)
@@ -203,7 +202,6 @@ while running:
     sc_text = f.render(str(lives), 1, (0, 0, 0))
     sc.blit(sc_text, (150, 40))
 
-
     if lives == 2:
         heart3.kill()
     elif lives == 1:
@@ -217,5 +215,3 @@ while running:
     coins.update(H)
     collideBalls()
     collideCoins()
-
-
