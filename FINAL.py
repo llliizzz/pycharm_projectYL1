@@ -45,7 +45,7 @@ def finalScreen():
             connection.commit()
             result_id = cursor.execute("""SELECT id FROM top ORDER BY id DESC limit 1""").fetchall()
             id_last = result_id[0][0]
-            print(result_id)
+            #print(result_id)
             connection.commit()
             connection.close()
 
@@ -65,7 +65,7 @@ def finalScreen():
                 # print(result)
                 final_menu.add.label('. . .')
                 last_result = cursor.execute(f"SELECT id, Username, Balls FROM top WHERE id = {id_last}").fetchall()
-                print(last_result)
+                #print(last_result)
                 final_menu.add.label(f'Your: {last_result[0][1]} - {last_result[0][2]} points')
                 connection.commit()
                 connection.close()

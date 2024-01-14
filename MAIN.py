@@ -37,3 +37,5 @@ print(checkState())
 while checkState() != 'EXIT':
     if checkState() == 'GAME':
         finalScreen()
+    # elif checkState() == 'MENU':
+    #     startScreen()
