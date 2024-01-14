@@ -35,4 +35,5 @@ def checkState():
 print(checkState())
 
 while checkState() != 'EXIT':
-    pass
+    if checkState() == 'GAME':
+        finalScreen()
