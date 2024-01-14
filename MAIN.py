@@ -8,6 +8,8 @@ from pygame_menu import themes
 from menu import startScreen
 from FINAL import finalScreen
 
+pygame.init()
+
 
 def addState(state):
     connection = sqlite3.connect('starry_rain1.sqlite')

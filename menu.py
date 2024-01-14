@@ -7,7 +7,6 @@ from pygame_menu import themes
 
 
 def startScreen():
-    pygame.init()
     surface = pygame.display.set_mode((600, 500), pygame.RESIZABLE)
     pygame.display.set_caption("Starry rain")
     start_menu = pygame_menu.Menu(

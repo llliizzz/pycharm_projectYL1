@@ -7,7 +7,6 @@ import sqlite3
 
 
 def finalScreen():
-    pygame.init()
     surface = pygame.display.set_mode((600, 500), pygame.RESIZABLE)
     pygame.display.set_caption("Final")
     final_menu = pygame_menu.Menu(
