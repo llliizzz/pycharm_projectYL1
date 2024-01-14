@@ -1,6 +1,7 @@
 import sqlite3
 
 import pygame
+
 import pygame_menu
 from pygame_menu import themes
 
@@ -52,7 +53,8 @@ def startScreen():
 
             connection = sqlite3.connect('starry_rain1.sqlite')
             cursor = connection.cursor()
-            cursor.execute("INSERT INTO top VALUES (?, ?,?)", (id1 + 1, self.name, 0))
+            cursor.execute("INSERT INTO top VALUES (?,?,?)", (id1 + 1, self.name, 0))
+            cursor.execute("INSERT INTO LastState (State) VALUES ('GAME')")
             connection.commit()
             connection.close()
 
@@ -80,33 +82,30 @@ def startScreen():
 
     fl = True
     update_loading = pygame.USEREVENT + 0
-    if __name__ == '__main__':
-        Menu()
-        # start_menu.mainloop(surface)
-        while fl:
-            events = pygame.event.get()
-            for event in events:
-                if event.type == update_loading:
-                    progress = loading.get_widget("1")
-                    progress.set_value(progress.get_value() + 1)
-                    if progress.get_value() == 100:
-                        pygame.time.set_timer(update_loading, 0)
-                if event.type == pygame.QUIT:
-                    fl = False
-                    # pygame.quit()
-                    # break
-                # if event.type == pygame.VIDEORESIZE:
-                #     surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                #     Menu.on_resize(Menu)
-            # if start_menu.is_enabled():
-            #     start_menu.update(events)
-            #     start_menu.draw(surface)
-            #     if start_menu.get_current().get_selected_widget():
-            #         arrow.draw(surface, start_menu.get_current().get_selected_widget())
-            surface.fill((25, 0, 50))
-            start_menu.update(events)
-            start_menu.draw(surface)
-            pygame.display.flip()
+    Menu()
+    # start_menu.mainloop(surface)
+    while fl:
+        events = pygame.event.get()
+        for event in events:
+            if event.type == update_loading:
+                progress = loading.get_widget("1")
+                progress.set_value(progress.get_value() + 1)
+                if progress.get_value() == 100:
+                    pygame.time.set_timer(update_loading, 0)
+            if event.type == pygame.QUIT:
+                fl = False
+            # if event.type == pygame.VIDEORESIZE:
+            #     surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+            #     Menu.on_resize(Menu)
+        # if start_menu.is_enabled():
+        #     start_menu.update(events)
+        #     start_menu.draw(surface)
+        #     if start_menu.get_current().get_selected_widget():
+        #         arrow.draw(surface, start_menu.get_current().get_selected_widget())
+        surface.fill((25, 0, 50))
+        start_menu.update(events)
+        start_menu.draw(surface)
+        pygame.display.flip()
 
 
 startScreen()
