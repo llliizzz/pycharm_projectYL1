@@ -7,6 +7,7 @@ import sqlite3
 
 
 def finalScreen():
+    pygame.init()
     surface = pygame.display.set_mode((600, 500), pygame.RESIZABLE)
     pygame.display.set_caption("Final")
     final_menu = pygame_menu.Menu(
@@ -91,27 +92,24 @@ def finalScreen():
 
     fl = True
     update_loading = pygame.USEREVENT + 0
-    if __name__ == '__main__':
-        FinalScreen()
-        while fl:
-            events = pygame.event.get()
-            for event in events:
-                if event.type == pygame.QUIT:
-                    fl = False
-                    # pygame.quit()
-                    # break
-                if event.type == pygame.VIDEORESIZE:
-                    surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                    # FinalScreen.on_resize()
-            if final_menu.is_enabled():
-                final_menu.update(events)
-                final_menu.draw(surface)
-                if final_menu.get_current().get_selected_widget():
-                    arrow.draw(surface, final_menu.get_current().get_selected_widget())
-            surface.fill((25, 0, 50))
+    FinalScreen()
+    while fl:
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                fl = False
+            if event.type == pygame.VIDEORESIZE:
+                surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                # FinalScreen.on_resize()
+        if final_menu.is_enabled():
             final_menu.update(events)
             final_menu.draw(surface)
-            pygame.display.flip()
+            if final_menu.get_current().get_selected_widget():
+                arrow.draw(surface, final_menu.get_current().get_selected_widget())
+        surface.fill((25, 0, 50))
+        final_menu.update(events)
+        final_menu.draw(surface)
+        pygame.display.flip()
 
 
 finalScreen()
