@@ -69,10 +69,13 @@ def get_balls():
     connection = sqlite3.connect('starry_rain1.sqlite')
     cursor = connection.cursor()
     connection.commit()
+
     cursor.execute("CREATE TABLE IF NOT EXISTS 'top' (id INTEGER, Username TEXT, Balls INTEGER)")
     connection.commit()
+
     result_id = cursor.execute("""SELECT id FROM top ORDER BY id DESC limit 1""").fetchall()
     id1 = result_id[0][0]
+
     cursor.execute("INSERT INTO top VALUES (?, ?,?)", (id1 + 1, '', all_balls))
     connection.commit()
     connection.close()
@@ -115,6 +118,17 @@ def collideBalls():
                 lives -= 1
             else:
                 get_balls()
+
+                connection = sqlite3.connect('starry_rain1.sqlite')
+                cursor = connection.cursor()
+
+                prev_id = cursor.execute("""SELECT id FROM LastState ORDER BY id DESC limit 1""").fetchall()
+                id1 = prev_id[0][0]
+                cursor.execute("INSERT INTO LastState (id, State) VALUES (?, ?)", (id1 + 1, 'FINAL'))
+
+                connection.commit()
+                connection.close()
+
                 running = False
                 # get_balls()
                 all_balls = 0
@@ -194,6 +208,17 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 paused = not paused
+            elif event.key == pygame.K_ESCAPE:
+                connection = sqlite3.connect('starry_rain1.sqlite')
+                cursor = connection.cursor()
+
+                prev_id = cursor.execute("""SELECT id FROM LastState ORDER BY id DESC limit 1""").fetchall()
+                id1 = prev_id[0][0]
+                cursor.execute("INSERT INTO LastState (id, State) VALUES (?, ?)", (id1 + 1, 'MENU'))
+
+                connection.commit()
+                connection.close()
+                running = False
     if not paused:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
