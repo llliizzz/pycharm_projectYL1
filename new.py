@@ -198,6 +198,15 @@ while running:
     # pygame.mixer.music.play()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            connection = sqlite3.connect('starry_rain1.sqlite')
+            cursor = connection.cursor()
+
+            prev_id = cursor.execute("""SELECT id FROM LastState ORDER BY id DESC limit 1""").fetchall()
+            id1 = prev_id[0][0]
+            cursor.execute("INSERT INTO LastState (id, State) VALUES (?, ?)", (id1 + 1, 'EXIT'))
+
+            connection.commit()
+            connection.close()
             exit()
         elif event.type == pygame.USEREVENT:
             if not paused:
