@@ -31,5 +31,8 @@ def checkState():
     return currentState[0][1]
 
 
-startScreen()
+# startScreen()
 print(checkState())
+
+while checkState() != 'EXIT':
+    pass
