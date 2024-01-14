@@ -19,8 +19,9 @@ count_coins = 0
 count_balls = 0
 f = pygame.font.SysFont('arial', 30)
 # pygame.mixer.music.load('game_music (2).mp3')
-boom_sound = pygame.mixer.Sound('boom_sound.wav')
-coin_sound = pygame.mixer.Sound('coin_sound.wav')
+boom_sound = pygame.mixer.Sound('audio/boom_sound.wav')
+coin_sound = pygame.mixer.Sound('audio/coin_sound.wav')
+paused = False
 
 
 def load_image(name, colorkey=None):
@@ -38,8 +39,23 @@ def load_image(name, colorkey=None):
     return image
 
 
+def pause():
+    font = pygame.font.SysFont(None, 40)
+    WHITE = (255, 255, 255)
+    paused_text = font.render('Paused. Press SPACE to resume.', True, WHITE)
+    paused_rect = paused_text.get_rect(center=(W // 2, H // 2))
+    transparent = pygame.Surface((W, H))
+    transparent.set_alpha(10)
+
+    for i in range(3):
+        sc.blit(transparent, (0, 0))
+        sc.blit(paused_text, paused_rect)
+        pygame.display.flip()
+        pygame.time.wait(30)
+
+
 bg = load_image("background.jpg")
-ship = SpaceShip("data\ship.png", W, H)
+ship = SpaceShip("data/ship.png", W, H)
 clock = pygame.time.Clock()
 fps = 60
 balls_images = ['stone4.png', 'stone5.png', 'stone3.png']
@@ -170,48 +186,54 @@ while running:
         if event.type == pygame.QUIT:
             exit()
         elif event.type == pygame.USEREVENT:
-            createBall(balls)
-            k += 1
-            if not (k % 5):
-                createCoin(coins)
+            if not paused:
+                createBall(balls)
+                k += 1
+                if not (k % 5):
+                    createCoin(coins)
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                paused = not paused
+    if not paused:
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            ship.t_rect.x -= speed
+            if ship.t_rect.x < 0:
+                ship.t_rect.x = 0
+        elif keys[pygame.K_RIGHT]:
+            ship.t_rect.x += speed
+            if ship.t_rect.x > W - ship.t_rect.width:
+                ship.t_rect.x = W - ship.t_rect.width
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        ship.t_rect.x -= speed
-        if ship.t_rect.x < 0:
-            ship.t_rect.x = 0
-    elif keys[pygame.K_RIGHT]:
-        ship.t_rect.x += speed
-        if ship.t_rect.x > W - ship.t_rect.width:
-            ship.t_rect.x = W - ship.t_rect.width
+        sc.blit(bg, (0, 0))
+        balls.draw(sc)
+        coins.draw(sc)
 
-    sc.blit(bg, (0, 0))
-    balls.draw(sc)
-    coins.draw(sc)
+        sc.blit(ship.image, ship.t_rect)
+        sc.blit(load_image('notch.png'), (0, 0))
 
-    sc.blit(ship.image, ship.t_rect)
-    sc.blit(load_image('notch.png'), (0, 0))
+        all_balls = count_balls + k * 10
+        sc_str1 = f.render(str("Баллы"), 1, (0, 0, 0))
+        sc.blit(sc_str1, (20, 10))
+        sc_balls = f.render(str(all_balls), 1, (0, 0, 0))
+        sc.blit(sc_balls, (40, 40))
+        sc_str2 = f.render(str("Жизни"), 1, (0, 0, 0))
+        sc.blit(sc_str2, (120, 10))
+        sc_text = f.render(str(lives), 1, (0, 0, 0))
+        sc.blit(sc_text, (150, 40))
 
-    all_balls = count_balls + k * 10
-    sc_str1 = f.render(str("Баллы"), 1, (0, 0, 0))
-    sc.blit(sc_str1, (20, 10))
-    sc_balls = f.render(str(all_balls), 1, (0, 0, 0))
-    sc.blit(sc_balls, (40, 40))
-    sc_str2 = f.render(str("Жизни"), 1, (0, 0, 0))
-    sc.blit(sc_str2, (120, 10))
-    sc_text = f.render(str(lives), 1, (0, 0, 0))
-    sc.blit(sc_text, (150, 40))
+        if lives == 2:
+            heart3.kill()
+        elif lives == 1:
+            heart2.kill()
 
-    if lives == 2:
-        heart3.kill()
-    elif lives == 1:
-        heart2.kill()
-
-    all_sprites.draw(sc)
-    all_sprites.update()
-    pygame.display.update()
-    clock.tick(fps)
-    balls.update(H)
-    coins.update(H)
-    collideBalls()
-    collideCoins()
+        all_sprites.draw(sc)
+        all_sprites.update()
+        pygame.display.update()
+        clock.tick(fps)
+        balls.update(H)
+        coins.update(H)
+        collideBalls()
+        collideCoins()
+    else:
+        pause()
