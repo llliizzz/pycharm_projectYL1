@@ -1,3 +1,4 @@
+import os
 import sqlite3
 
 import pygame
@@ -19,11 +20,14 @@ def startScreen():
 
     class Menu:
         def __init__(self):
+            with open("level.txt", "a+") as my_file:
+                my_file.write('@')
+                my_file.write(str(1))
             start_menu.add.label('STARRY RAIN')
             start_menu.add.label(' ')
             self.username = start_menu.add.text_input('Name: ', default=(f"user{self.get_id() + 1}"), maxchar=10)
             start_menu.add.button('Hot Keys', self.hot_keys)
-            start_menu.add.selector('Difficulty :', [('Easy', 1), ('Normal', 2), ('Hard', 3)],
+            start_menu.add.selector('Difficulty :', [('Easy', 1), ('Hard', 3), ('Normal', 2)],
                                     onchange=self.set_difficulty)
             start_menu.add.button('Play', self.start_the_game)
             start_menu.add.button('Quit', pygame_menu.events.EXIT)
@@ -60,8 +64,10 @@ def startScreen():
             connection.close()
 
         def set_difficulty(self, value, difficulty):
-            #print(value)
-            print(difficulty)
+            #print(difficulty)
+            with open("level.txt", "a+") as my_file:
+                my_file.write('@')
+                my_file.write(str(difficulty))
 
         def hot_keys(self):
             start_menu._open(hot_menu)
@@ -84,7 +90,6 @@ def startScreen():
     fl = True
     update_loading = pygame.USEREVENT + 0
     Menu()
-    # start_menu.mainloop(surface)
     while fl:
         events = pygame.event.get()
         for event in events:
@@ -93,36 +98,12 @@ def startScreen():
                 progress.set_value(progress.get_value() + 1)
                 if progress.get_value() == 100:
                     pygame.time.set_timer(update_loading, 0)
-
-                    connection = sqlite3.connect('starry_rain1.sqlite')
-                    cursor = connection.cursor()
-
-                    prev_id = cursor.execute("""SELECT id FROM LastState ORDER BY id DESC limit 1""").fetchall()
-                    id1 = prev_id[0][0]
-                    cursor.execute("INSERT INTO LastState (id, State) VALUES (?, ?)", (id1 + 1, 'GAME'))
-
-                    connection.commit()
-                    connection.close()
                     fl = False
+                    from new import game
+                    game()
+
             if event.type == pygame.QUIT:
-                connection = sqlite3.connect('starry_rain1.sqlite')
-                cursor = connection.cursor()
-
-                prev_id = cursor.execute("""SELECT id FROM LastState ORDER BY id DESC limit 1""").fetchall()
-                id1 = prev_id[0][0]
-                cursor.execute("INSERT INTO LastState (id, State) VALUES (?, ?)", (id1 + 1, 'EXIT'))
-
-                connection.commit()
-                connection.close()
                 fl = False
-            # if event.type == pygame.VIDEORESIZE:
-            #     surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-            #     Menu.on_resize(Menu)
-        # if start_menu.is_enabled():
-        #     start_menu.update(events)
-        #     start_menu.draw(surface)
-        #     if start_menu.get_current().get_selected_widget():
-        #         arrow.draw(surface, start_menu.get_current().get_selected_widget())
         surface.fill((25, 0, 50))
         start_menu.update(events)
         start_menu.draw(surface)
