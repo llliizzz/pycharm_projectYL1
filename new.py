@@ -18,9 +18,8 @@ lives = 3
 count_coins = 0
 count_balls = 0
 f = pygame.font.SysFont('arial', 30)
-pygame.mixer.music.load('game_music.mp3')
-boom_sound = pygame.mixer.Sound('boom.wav')
-coin_sound = pygame.mixer.Sound('coin.wav')
+boom_sound = pygame.mixer.Sound('boom_sound.wav')
+coin_sound = pygame.mixer.Sound('coin_sound.wav')
 
 
 def load_image(name, colorkey=None):
@@ -39,9 +38,6 @@ def load_image(name, colorkey=None):
 
 
 bg = load_image("background.jpg")
-# ship = pygame.image.load('data/ship.png').convert_alpha()
-# t_rect = ship.get_rect(centerx=W // 2, bottom=H - 20)
-# mask = pygame.mask.from_surface(ship)
 ship = SpaceShip("data\ship.png", W, H)
 clock = pygame.time.Clock()
 fps = 60
@@ -165,7 +161,6 @@ speed = 10
 running = True
 all_sprites = pygame.sprite.Group()
 while running:
-    pygame.mixer.music.play()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
