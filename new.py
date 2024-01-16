@@ -9,8 +9,10 @@ from coin2 import Coin
 from ship1 import SpaceShip
 from AnimatedLife import AnimatedLife
 
-pygame.init()
+
 W, H = 1300, 770
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+pygame.init()
 sc = pygame.display.set_mode((W, H))
 
 
@@ -175,7 +177,8 @@ def game():
     x = 100
     y = 100
 
-    os.environ['Sp_VIDEO_WINDOW_POS'] = "%d,%d" % (x, y)
+    os.environ['Sp_VIDEO_WINDOW_POS'] = '1'
+
 
     lives = 3
     count_coins = 0
@@ -268,7 +271,7 @@ def game():
             collideBalls(balls, ship, boom_sound)
             collideCoins(coins, ship, coin_sound)
         else:
-            pause(sc, 0, 0)
+            pause(sc, W, H)
 
 
 game()
