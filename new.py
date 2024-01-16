@@ -47,7 +47,7 @@ def pause(sc, W, H):
 
 
 def get_balls(all_balls):
-    connection = sqlite3.connect('files\starry_rain1.sqlite')
+    connection = sqlite3.connect('starry_rain1.sqlite')
     cursor = connection.cursor()
     connection.commit()
     cursor.execute("CREATE TABLE IF NOT EXISTS 'top' (id INTEGER, Username TEXT, Balls INTEGER)")
@@ -64,7 +64,7 @@ def get_balls(all_balls):
 
 
 def createBall(group, balls_surf, W):
-    with open("files\level.txt", "r+") as my_file:
+    with open("level.txt", "r+") as my_file:
         x = my_file.read().split('@')[-1]
         level = int(x[0])
         #print(level)
@@ -226,7 +226,7 @@ def game():
                 if event.key == pygame.K_SPACE:
                     paused = not paused
                 elif event.key == pygame.K_ESCAPE:
-                    from menu import startScreen
+                    from STARTFILE import startScreen
                     startScreen()
         if not paused:
             keys = pygame.key.get_pressed()
@@ -238,6 +238,14 @@ def game():
                 ship.t_rect.x += speed
                 if ship.t_rect.x > W - ship.t_rect.width:
                     ship.t_rect.x = W - ship.t_rect.width
+            elif keys[pygame.K_UP]:
+                ship.t_rect.y -= speed
+                if ship.t_rect.y < 0:
+                    ship.t_rect.y = 0
+            elif keys[pygame.K_DOWN]:
+                ship.t_rect.y += speed
+                if ship.t_rect.y > H - ship.t_rect.height:
+                    ship.t_rect.y = H - ship.t_rect.height
 
             sc.blit(bg, (0, 0))
             balls.draw(sc)
