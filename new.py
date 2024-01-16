@@ -172,6 +172,7 @@ def game():
     global all_balls
     pygame.time.set_timer(pygame.USEREVENT, 1000)
     BLACK = (0, 0, 0)
+    sc = pygame.display.set_mode((W, H))
     # W, H = 1300, 770
     # sc = pygame.display.set_mode((W, H))
     x = 100
