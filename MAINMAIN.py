@@ -87,7 +87,7 @@ def collideBalls(balls, ship, boom_sound):
                 lives = 3
                 count_coins = 0
                 count_balls = 0
-                from FINAL import finalScreen
+                from FINAL_3 import finalScreen
                 finalScreen()
             # проигрыш
 

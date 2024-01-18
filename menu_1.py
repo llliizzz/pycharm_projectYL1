@@ -103,7 +103,7 @@ def startScreen():
                     connection.commit()
                     connection.close()
                     fl = False
-                    from new import game
+                    from new_3 import game
                     game()
             if event.type == pygame.QUIT:
                 connection = sqlite3.connect('starry_rain1.sqlite')
