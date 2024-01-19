@@ -17,7 +17,6 @@ def finalScreen():
         width=600
     )
 
-    # noinspection PyGlobalUndefined
     class FinalScreen:
         def __init__(self):
             final_menu.add.label('Rating of players:')
@@ -52,7 +51,6 @@ def finalScreen():
             fl = True
             for triple in result:
                 if triple[0] == id_last:
-                    # вывести эти три тройки на акран(result)
                     fl = False  # т е последний юзер встречается в тройке лидеров, отдельно не выводим
                     break
             if fl:
@@ -75,7 +73,7 @@ def finalScreen():
                 final_menu.add.label(f'3: {result[2][1]} - {result[2][2]} points')
 
         def zanovo(self):
-            from menu import startScreen
+            from STARTFILE import startScreen
             startScreen()
 
         def on_resize(self):
